@@ -1,0 +1,14 @@
+@use './variaveis.scss' as *;
+
+.barra{
+    background-color: $background;
+    height: 20px;
+    width: 100vw;
+    
+    ul{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        
+    }
+}
