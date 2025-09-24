@@ -1,0 +1,21 @@
+$background: white;
+$cor-destaque: #0056b3;
+$cor-texto: #000000;
+$cor-tarefa: #f0eded;
+$font-tamanho: 16px;
+$font-titulo: 24px;
+$font-subtitulo: 20px;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+}

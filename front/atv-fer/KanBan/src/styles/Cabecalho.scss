@@ -1,0 +1,17 @@
+@use './variaveis.scss' as *;
+
+.cabecalho{
+    background-color: $cor-destaque;
+    height: 80px;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .titulo{
+        color: $background;
+        font-size: $font-titulo;
+        margin-left: 30px;
+        padding: 10px;
+    }
+}

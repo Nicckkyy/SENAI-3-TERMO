@@ -1,0 +1,16 @@
+@use './variaveis.scss' as *;
+
+.containerQuadro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    
+    .containerQuadros{
+        display: flex;
+        justify-content: center; // Centraliza os quadros horizontalmente
+        flex-wrap: wrap;
+        gap: 20px;
+        width: 100%;
+    }
+}
