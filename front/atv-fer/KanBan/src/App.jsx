@@ -1,7 +1,7 @@
 import './styles/main.scss'
 import { BarraNavegacao } from './components/BarraNavegacao'
 import { CardUsuario } from './Paginas/CardUsuarios'
-import { CardTarefa } from "./Paginas/CardTarefas";
+import { CardTarefas } from "./Paginas/CardTarefas";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
