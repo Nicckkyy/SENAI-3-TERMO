@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Coluna from "./Coluna";
 import "../styles/Quadro.scss";
+import { DndContext } from "@dnd-kit/core";
 
 export default function Quadro() {
   const [tarefas, setTarefas] = useState([]);
@@ -44,12 +45,34 @@ export default function Quadro() {
     }
   };
 
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    if (over && active) {
+      const tarefaId = active.id;
+      const novaColuna = over.id;
+
+      setTarefas((prev) =>
+        prev.map((tarefa) =>
+          tarefa.id === tarefaId ? { ...tarefa, status: novaColuna } : tarefa
+        )
+      );
+
+      axios
+        .pacth(`http://127.0.0.1:8000/tarefa/${tarefaId}`, {
+          status: novaColuna,
+        })
+        .catch((err) => console.error("Erro ao movimentar a tarefa", err));
+    }
+  }
+
   const tarefasFazer = tarefas.filter((t) => t.status === "fazer");
   const tarefasFazendo = tarefas.filter((t) => t.status === "fazendo");
   const tarefasConcluido = tarefas.filter((t) => t.status === "concluido");
 
   return (
     <main className="containerQuadro" aria-labelledby="titulo-quadro">
+      <DndContext ondragend={handleDragEnd} />
+
       <h1 id="titulo-quadro">Quadro de Tarefas</h1>
       {erro && (
         <p role="alert" style={{ color: "red" }}>

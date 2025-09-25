@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
+import {useDroppable} from '@dnd-kit/core';
 
-export default function Coluna({ tarefas, atualizarStatus }) {
+export default function Coluna({ id, tarefas, atualizarStatus }) {
   const [tarefasAtualizadas, setTarefasAtualizadas] = useState(tarefas);
+  const {setNodeRef} = useDroppable({id})
 
   useEffect(() => {
     setTarefasAtualizadas(tarefas);
   }, [tarefas]);
 
   return (
-    <ul className="coluna" aria-live="polite">
+    <ul className="coluna" aria-live="polite" ref={setNodeRef}>
       {tarefasAtualizadas.length > 0 ? (
         tarefasAtualizadas.map((tarefa) => (
           <li

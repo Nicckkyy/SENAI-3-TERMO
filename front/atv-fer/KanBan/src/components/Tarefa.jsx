@@ -5,6 +5,12 @@ export default function Tarefa() {
   const [tarefas, setTarefas] = useState([]);
   const [erro, setErro] = useState("");
   const [statusFiltro, setStatusFiltro] = useState("fazer");
+  const {attributes,listeners, setNodeRef, transform} = useDraggable({
+    id: tarefa.id,
+  });
+  const style = transform
+    ?{transform : `translate(${transform.x}px ), ${transform.y}px)`}
+    :undefined;
 
   // Buscar tarefas pelo status
   const fetchTarefas = async () => {
@@ -28,8 +34,8 @@ export default function Tarefa() {
   }, [statusFiltro]);
 
   return (
-    <section className="tarefa-container" aria-labelledby="titulo-tarefas">
-      <h1 id="titulo-tarefas">Gerenciamento de Tarefas</h1>
+    <section className="tarefa-container" aria-labelledby="titulo-tarefas" ref={setNodeRef} style={style}>
+      <h3 id={`tarefa-${tarefa.id}`}{...listeners}{...attributes}>{tarefa.descricao}</h3>
 
       {erro && (
         <p role="alert" style={{ color: "red" }}>
