@@ -1,0 +1,8 @@
+# Caminhos para os dados (AJUSTE CONFORME SEU SETUP DE TREINAMENTO)
+path: ../data  # Caminho relativo para a pasta 'data'
+train: images/train  # Pasta de imagens de treinamento
+val: images/val      # Pasta de imagens de validação
+
+# Classes de Detecção
+nc: 2  # Número de classes
+names: ['pessoa', 'cadeira'] # Nomes das classes (DEVE SER EXATAMENTE ESTES NOMES)
