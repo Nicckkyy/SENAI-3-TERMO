@@ -5,12 +5,23 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    padding: 20px;
     
+    .tituloQuadro {
+        font-size: $font-titulo;
+        font-weight: bold;
+        color: $cor-destaque;
+        margin-bottom: 30px;
+    }
+
     .containerQuadros{
-        display: flex;
-        justify-content: center; // Centraliza os quadros horizontalmente
-        flex-wrap: wrap;
+        /* --- AQUI ESTÁ A CHAVE PARA O LAYOUT HORIZONTAL --- */
+        display: flex; 
+        justify-content: center; // Centraliza as colunas na tela
+        align-items: flex-start; // Garante que todas as colunas começam no topo
+        flex-wrap: wrap; 
         gap: 20px;
         width: 100%;
+        max-width: 1300px; 
     }
 }

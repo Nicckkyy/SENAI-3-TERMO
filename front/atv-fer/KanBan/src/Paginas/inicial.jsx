@@ -4,24 +4,25 @@ import { BarraNavegacao } from "../components/BarraNavegacao";
 import Cabecalho from "../components/Cabecalho";
 import { Outlet } from "react-router-dom";
 import "../styles/main.scss";
-import Quadro from "../components/Quadro";
-import { CardUsuario } from "./CardUsuarios";
-import { CardTarefas } from "./CardTarefas";
+// REMOVIDO: import Quadro from "../components/Quadro"; // Será renderizado via rota
+// REMOVIDO: import { CardUsuario } from "./CardUsuarios"; // Será renderizado via rota
+// REMOVIDO: import { CardTarefas } from "./CardTarefas"; // Será renderizado via rota
 import "../styles/Inicial.scss";
 
 export function Inicial() {
   return (
     <>
       <Cabecalho />
+      {/* A Barra de Navegação será essencial para ligar 
+        as rotas do Quadro, Cadastro Usuário e Cadastro Tarefa.
+        Por exemplo: /quadro, /cadastro-usuario, /cadastro-tarefa.
+      */}
+      <BarraNavegacao />
+
       <main>
-        <Quadro />
-        <section>
-          <CardUsuario />
-          {/* Renderize o componente com o nome correto */}
-          <CardTarefas />
-        </section>
+        {/* O Outlet irá carregar a página específica da rota (Quadro, Cadastro) */}
+        <Outlet />
       </main>
-      <Outlet />
     </>
   );
 }

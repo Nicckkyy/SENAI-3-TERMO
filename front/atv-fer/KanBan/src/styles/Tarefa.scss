@@ -1,6 +1,67 @@
 @use './variaveis.scss' as *;
 
 .tarefa-container {
+    /* Estilo do Card Individual */
+    background-color: $background; /* Fundo branco para o card */
+    border-radius: 6px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+    padding: 10px 10px 10px 0; /* Mais padding à esquerda para a barra */
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    transition: transform 0.2s;
+    cursor: grab;
+
+    &:hover {
+        transform: translateY(-2px); /* Efeito sutil ao passar o mouse */
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+    }
+    
+    /* Barra lateral colorida para identificação */
+    .barra-status {
+        width: 6px;
+        min-height: 100%;
+        margin-right: 10px;
+        border-radius: 3px 0 0 3px;
+        /* A cor será definida no JSX/Inline Style. Ex: background-color: $cor-vermelho; */
+    }
+
+    .conteudo-tarefa {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .titulo-tarefa {
+            font-size: $font-tamanho;
+            font-weight: bold;
+            color: $cor-texto;
+            margin-bottom: 5px;
+        }
+
+        .detalhe {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .btn-status {
+            margin-top: 10px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: $cor-destaque;
+            color: $background;
+            cursor: pointer;
+            width: fit-content;
+            align-self: flex-end; /* Alinha o botão à direita */
+            transition: background-color 0.2s;
+        }
+    }
+}
+
+/* Opcional: Removendo o container antigo que não será mais usado */
+/*
+.tarefa-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,3 +78,4 @@
         width: 100%;
     }
 }
+*/   

@@ -1,92 +1,70 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useDraggable } from "@dnd-kit/core"; // Hook de arrastar importado corretamente
 import "../styles/Tarefa.scss";
 
-export default function Tarefa() {
-  const [tarefas, setTarefas] = useState([]);
-  const [erro, setErro] = useState("");
-  const [statusFiltro, setStatusFiltro] = useState("fazer");
-  const {attributes,listeners, setNodeRef, transform} = useDraggable({
+// O componente Tarefa deve receber a tarefa individual como prop
+export default function Tarefa({ tarefa, atualizarStatus }) {
+  // A ID do Draggable deve ser o ID da tarefa, e não a tarefa inteira
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: tarefa.id,
   });
-  const style = transform
-    ?{transform : `translate(${transform.x}px ), ${transform.y}px)`}
-    :undefined;
 
-  // Buscar tarefas pelo status
-  const fetchTarefas = async () => {
-    try {
-      const response = await fetch(
-        `http://127.0.0.1:8000/api/tarefas/?status=${statusFiltro}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setTarefas(data);
-      } else {
-        setErro("Erro ao carregar as tarefas");
-      }
-    } catch (error) {
-      setErro("Erro de rede ou servidor");
+  // Estilo para o efeito de arraste
+  const style = transform
+    ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` } // Ajuste de sintaxe no transform
+    : undefined;
+
+  // Função para determinar a cor da barra lateral (exemplo)
+  const getPrioridadeColor = (prioridade) => {
+    switch (prioridade) {
+      case "alta":
+        return "#dc3545"; // Vermelho
+      case "media":
+        return "#ffc107"; // Amarelo
+      default:
+        return "#17a2b8"; // Azul claro
     }
   };
 
-  useEffect(() => {
-    fetchTarefas();
-  }, [statusFiltro]);
-
   return (
-    <section className="tarefa-container" aria-labelledby="titulo-tarefas" ref={setNodeRef} style={style}>
-      <h3 id={`tarefa-${tarefa.id}`}{...listeners}{...attributes}>{tarefa.descricao}</h3>
+    // Aplicação da classe de CARD individual e do DND-Kit
+    <div
+      className="tarefa-container"
+      ref={setNodeRef}
+      style={style}
+      {...listeners}
+      {...attributes}
+      role="article"
+    >
+      {/* Barra de Status Colorida para o visual do card */}
+      <div
+        className="barra-status"
+        style={{ backgroundColor: getPrioridadeColor(tarefa.prioridade) }}
+      ></div>
 
-      {erro && (
-        <p role="alert" style={{ color: "red" }}>
-          {erro}
+      <div className="conteudo-tarefa">
+        <h3 className="titulo-tarefa" id={`tarefa-${tarefa.id}`}>
+          ID {tarefa.id} - {tarefa.descricao}
+        </h3>
+
+        <p className="detalhe">
+          <strong>Prioridade:</strong> {tarefa.prioridade}
         </p>
-      )}
+        <p className="detalhe">
+          <strong>Setor:</strong> {tarefa.setor}
+        </p>
 
-      <div className="filtro">
-        <label htmlFor="filtro-status">Filtrar por status:</label>
         <select
-          id="filtro-status"
-          value={statusFiltro}
-          onChange={(e) => setStatusFiltro(e.target.value)}
-          aria-describedby="filtro-status"
+          className="btn-status"
+          value={tarefa.status}
+          // Chamamos a função de atualização do Quadro
+          onChange={(e) => atualizarStatus(tarefa.id, e.target.value)}
         >
           <option value="fazer">A Fazer</option>
           <option value="fazendo">Fazendo</option>
           <option value="concluido">Concluído</option>
         </select>
       </div>
-
-      <ul className="tarefas-lista" aria-live="polite">
-        {tarefas.length > 0 ? (
-          tarefas.map((tarefa) => (
-            <li
-              key={tarefa.id}
-              className="tarefa-item"
-              role="article"
-              aria-label={`Tarefa com ID ${tarefa.id}, descrição: ${tarefa.descricao}`}
-            >
-              <p>
-                <strong>Id:</strong> {tarefa.id}
-              </p>
-              <p>
-                <strong>Descrição:</strong> {tarefa.descricao}
-              </p>
-              <p>
-                <strong>Setor:</strong> {tarefa.setor}
-              </p>
-              <p>
-                <strong>Prioridade:</strong> {tarefa.prioridade}
-              </p>
-              <p>
-                <strong>Status:</strong> {tarefa.status}
-              </p>
-            </li>
-          ))
-        ) : (
-          <p>Não há tarefas para exibir.</p>
-        )}
-      </ul>
-    </section>
+    </div>
   );
 }

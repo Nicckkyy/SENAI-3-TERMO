@@ -1,17 +1,18 @@
 import { Link } from "react-router-dom";
+import "../styles/BarraNavegacao.scss"; // Certifique-se de importar o SCSS
 
 export function BarraNavegacao() {
   return (
     <nav className="barra" aria-label="Menu principal">
       <ul>
         <li>
-          <Link to="/cadUsuario">Cadastro de Usuário</Link>
+          <Link to="/cadastro-usuario">Cadastro de Usuário</Link>
         </li>
         <li>
-          <Link to="/cadTarefa">Cadastro de Tarefas</Link>
+          <Link to="/cadastro-tarefa">Cadastro de Tarefas</Link>
         </li>
         <li>
-          <Link to="/tarefas">Gerenciamento de Tarefas</Link>
+          <Link to="/">Gerenciamento de Tarefas</Link>
         </li>
       </ul>
     </nav>

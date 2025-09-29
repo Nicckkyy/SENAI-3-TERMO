@@ -1,55 +1,39 @@
 import React, { useState, useEffect } from "react";
-import {useDroppable} from '@dnd-kit/core';
+import { useDroppable } from "@dnd-kit/core";
+// Importamos o componente de tarefa individual
+import Tarefa from "./Tarefa";
+import "../styles/Coluna.scss"; // Importa o CSS da Coluna
 
-export default function Coluna({ id, tarefas, atualizarStatus }) {
+// Recebe a ID da coluna e o Título como props
+export default function Coluna({ id, titulo, tarefas, atualizarStatus }) {
   const [tarefasAtualizadas, setTarefasAtualizadas] = useState(tarefas);
-  const {setNodeRef} = useDroppable({id})
+  // Passamos a ID para o useDroppable
+  const { setNodeRef } = useDroppable({ id });
 
   useEffect(() => {
     setTarefasAtualizadas(tarefas);
   }, [tarefas]);
 
   return (
-    <ul className="coluna" aria-live="polite" ref={setNodeRef}>
-      {tarefasAtualizadas.length > 0 ? (
-        tarefasAtualizadas.map((tarefa) => (
-          <li
-            key={tarefa.id}
-            className="tarefa-item"
-            role="article"
-            aria-label={`Tarefa com ID ${tarefa.id}, descrição: ${tarefa.descricao}`}
-          >
-            <p>
-              <strong>Id:</strong> {tarefa.id}
-            </p>
-            <p>
-              <strong>Descrição:</strong> {tarefa.descricao}
-            </p>
-            <p>
-              <strong>Setor:</strong> {tarefa.setor}
-            </p>
-            <p>
-              <strong>Prioridade:</strong> {tarefa.prioridade}
-            </p>
-            <p>
-              <strong>Status:</strong> {tarefa.status}
-            </p>
+    // CORRIGIDO: Adicionamos o container da coluna (div) com a classe e o ref
+    <div className="coluna" ref={setNodeRef}>
+      <h2 className="subtitulo" id={`titulo-${id}`}>
+        {titulo}
+      </h2>
 
-            <label htmlFor={`status-${tarefa.id}`}>Alterar status:</label>
-            <select
-              id={`status-${tarefa.id}`}
-              value={tarefa.status}
-              onChange={(e) => atualizarStatus(tarefa.id, e.target.value)}
-            >
-              <option value="fazer">A Fazer</option>
-              <option value="fazendo">Fazendo</option>
-              <option value="concluido">Concluído</option>
-            </select>
-          </li>
-        ))
-      ) : (
-        <p>Não há tarefas nesta coluna.</p>
-      )}
-    </ul>
+      {/* Lista que contém os cards */}
+      <ul className="lista-tarefas" aria-live="polite">
+        {tarefasAtualizadas.length > 0 ? (
+          tarefasAtualizadas.map((tarefa) => (
+            // CORRIGIDO: Renderiza o componente Tarefa como um card individual
+            <li key={tarefa.id} role="listitem">
+              <Tarefa tarefa={tarefa} atualizarStatus={atualizarStatus} />
+            </li>
+          ))
+        ) : (
+          <p>Não há tarefas nesta coluna.</p>
+        )}
+      </ul>
+    </div>
   );
 }

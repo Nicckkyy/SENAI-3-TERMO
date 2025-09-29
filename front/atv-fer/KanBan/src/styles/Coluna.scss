@@ -1,18 +1,28 @@
 @use './variaveis.scss' as *;
 
 .coluna{
-    background-color: $cor-tarefa;
-    padding: 5px;
+    background-color: $cor-tarefa; 
+    border-radius: 8px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    flex: 1 1 320px;
+    gap: 15px;
+    
+    /* ESSA PROPRIEDADE FAZ A COLUNA SE ALINHAR HORIZONTALMENTE */
+    flex: 1 1 300px; 
+    max-width: 400px; 
+    min-height: 400px; 
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
 
     .subtitulo{
-        font-size: $font-subtitulo;
-        font-weight: bold;
-        color: $cor-destaque;
-        text-align: center;
-        
+        /* ... estilos do subtítulo ... */
+    }
+
+    .lista-tarefas {
+        /* ... estilos da lista de tarefas ... */
+        display: flex;
+        flex-direction: column; /* Garante que as tarefas fiquem EMPILHADAS */
+        gap: 10px;
+        /* ... */
     }
 }

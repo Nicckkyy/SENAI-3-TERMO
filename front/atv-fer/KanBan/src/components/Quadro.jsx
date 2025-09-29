@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+// Importamos o componente de card de tarefa
+import Tarefa from "./Tarefa";
+// Importamos a Coluna.js para envolver os cards
 import Coluna from "./Coluna";
 import "../styles/Quadro.scss";
 import { DndContext } from "@dnd-kit/core";
@@ -7,6 +10,7 @@ export default function Quadro() {
   const [tarefas, setTarefas] = useState([]);
   const [erro, setErro] = useState("");
 
+  // ... (fetchTarefas, useEffect, atualizarStatusTarefa permanecem inalterados) ...
   const fetchTarefas = async () => {
     try {
       const response = await fetch("http://127.0.0.1:8000/api/tarefas/");
@@ -27,7 +31,7 @@ export default function Quadro() {
 
   const atualizarStatusTarefa = async (id, novoStatus) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/tarefas/${id}/`, {
+      const response = await fetch(`http://127.00.1:8000/api/tarefas/${id}/`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: novoStatus }),
@@ -57,11 +61,8 @@ export default function Quadro() {
         )
       );
 
-      axios
-        .pacth(`http://127.0.0.1:8000/tarefa/${tarefaId}`, {
-          status: novaColuna,
-        })
-        .catch((err) => console.error("Erro ao movimentar a tarefa", err));
+      // Corrigido: usando a função fetch em vez de axios indefinido
+      atualizarStatusTarefa(tarefaId, novaColuna);
     }
   }
 
@@ -71,52 +72,41 @@ export default function Quadro() {
 
   return (
     <main className="containerQuadro" aria-labelledby="titulo-quadro">
-      <DndContext ondragend={handleDragEnd} />
+      {/* CORRIGIDO: DndContext envolve todo o conteúdo arrastável */}
+      <DndContext onDragEnd={handleDragEnd}>
+        <h1 className="tituloQuadro" id="titulo-quadro">
+          Quadro de Tarefas
+        </h1>
+        {erro && (
+          <p role="alert" style={{ color: "red" }}>
+            {erro}
+          </p>
+        )}
 
-      <h1 id="titulo-quadro">Quadro de Tarefas</h1>
-      {erro && (
-        <p role="alert" style={{ color: "red" }}>
-          {erro}
-        </p>
-      )}
-
-      <div className="containerQuadros">
-        <section
-          className="quadro"
-          role="region"
-          aria-labelledby="titulo-fazer"
-        >
-          <h2 id="titulo-fazer">A Fazer</h2>
+        <div className="containerQuadros">
+          {/* CORRIGIDO: Usando a classe 'coluna' e passando a ID para o useDroppable */}
           <Coluna
+            id="fazer"
+            titulo="A Fazer"
             tarefas={tarefasFazer}
             atualizarStatus={atualizarStatusTarefa}
           />
-        </section>
 
-        <section
-          className="quadro"
-          role="region"
-          aria-labelledby="titulo-fazendo"
-        >
-          <h2 id="titulo-fazendo">Fazendo</h2>
           <Coluna
+            id="fazendo"
+            titulo="Fazendo"
             tarefas={tarefasFazendo}
             atualizarStatus={atualizarStatusTarefa}
           />
-        </section>
 
-        <section
-          className="quadro"
-          role="region"
-          aria-labelledby="titulo-concluido"
-        >
-          <h2 id="titulo-concluido">Pronto</h2>
           <Coluna
+            id="concluido"
+            titulo="Pronto"
             tarefas={tarefasConcluido}
             atualizarStatus={atualizarStatusTarefa}
           />
-        </section>
-      </div>
+        </div>
+      </DndContext>
     </main>
   );
 }
