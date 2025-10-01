@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *   
-
+from rest_framework.generics import DestroyAPIView
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.response import Response
@@ -50,6 +50,13 @@ class AtualizarTarefaAPIView(generics.UpdateAPIView):
 
     def patch(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+
+
+class DeletarTarefaAPIView(DestroyAPIView):
+    queryset = Tarefa.objects.all()
+    serializer_class = TarefaSerializer
+    lookup_field = 'id'
+
 
 class ListarPessoasAPIView(ListAPIView):
     queryset = Pessoa.objects.all()  # Todos os registros de pessoas
